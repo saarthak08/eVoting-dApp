@@ -4,7 +4,7 @@ const Web3 = require("web3");
 const {
 	contractABI,
 	contractBytecodeObject,
-} = require("../utils/contract-utils");
+} = require("../utils/eVoting-utils");
 const web3 = new Web3(ganache.provider());
 
 let accounts;
