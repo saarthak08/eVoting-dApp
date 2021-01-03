@@ -16,8 +16,8 @@ contract eVoting {
     mapping(address=>bool) public totalVotersList;
     mapping(address=>bool) public votedList;
     
-    Candidate[] public candidatesList;
-    mapping(address=>bool) candidatesMap;
+    Candidate[] candidatesList;
+    mapping(address=>bool) public candidatesMap;
     
     uint public feesForCandidates;
     uint public feesForVoters;
