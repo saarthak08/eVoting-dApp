@@ -226,3 +226,5 @@ dist
 /blockchain-data/keystore/
 
 /blockchain-data/geth/
+
+.env

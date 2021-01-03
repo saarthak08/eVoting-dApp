@@ -24,6 +24,7 @@
 // const fs = require('fs');
 // const mnemonic = fs.readFileSync(".secret").toString().trim();
 
+require("dotenv").config();
 module.exports = {
 	/**
 	 * Networks define how you connect to your ethereum client and let you set the
@@ -46,7 +47,7 @@ module.exports = {
 			host: "127.0.0.1", // Localhost (default: none)
 			port: 8546, // Standard Ethereum port (default: none)
 			network_id: "*",
-      websockets: true, // Any network (default: none)
+			websockets: true, // Any network (default: none)
 		},
 		// Another network with more advanced options...
 		// advanced: {
@@ -83,7 +84,7 @@ module.exports = {
 	// Configure your compilers
 	compilers: {
 		solc: {
-			 version: "0.7.6",    // Fetch exact version from solc-bin (default: truffle's version)
+			version: "0.7.6", // Fetch exact version from solc-bin (default: truffle's version)
 			// docker: true,        // Use "0.5.1" you've installed locally with docker (default: false)
 			// settings: {          // See the solidity docs for advice about optimization and evmVersion
 			//  optimizer: {
