@@ -1,0 +1,26 @@
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/material.dart';
+
+class PNetworkImage extends StatelessWidget {
+  final String image;
+  final BoxFit fit;
+  final double width, height;
+  const PNetworkImage(this.image,
+      {required Key key,
+      required this.fit,
+      required this.height,
+      required this.width})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Image.network(
+      image,
+      // placeholder: (context, url) => Center(child: CircularProgressIndicator()),
+      // errorWidget: (context, url, error) => Image.asset('assets/placeholder.jpg',fit: BoxFit.cover,),
+      fit: fit,
+      width: width,
+      height: height,
+    );
+  }
+}
