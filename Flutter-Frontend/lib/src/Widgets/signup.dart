@@ -8,16 +8,10 @@ class SignupPage extends StatelessWidget {
       color: Colors.blue.shade100,
       child: ListView(
         children: <Widget>[
-          SizedBox(
-            height: 30.0,
-          ),
           CircleAvatar(
             // child: PNetworkImage(origami),
             maxRadius: 50,
             backgroundColor: Colors.transparent,
-          ),
-          SizedBox(
-            height: 20.0,
           ),
           _buildLoginForm(),
           Row(
@@ -45,17 +39,36 @@ class SignupPage extends StatelessWidget {
         children: <Widget>[
           ClipPath(
             child: Container(
-              height: 400,
+              height: 600,
               padding: EdgeInsets.all(10.0),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.all(Radius.circular(40.0)),
                 color: Colors.white,
               ),
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   SizedBox(
-                    height: 90.0,
+                    height: 80.0,
+                  ),
+                  Container(
+                      padding: EdgeInsets.symmetric(horizontal: 20.0),
+                      child: TextField(
+                        style: TextStyle(color: Colors.blue),
+                        decoration: InputDecoration(
+                            hintText: "Name",
+                            hintStyle: TextStyle(color: Colors.blue.shade200),
+                            border: InputBorder.none,
+                            icon: Icon(
+                              Icons.edit,
+                              color: Colors.blue,
+                            )),
+                      )),
+                  Container(
+                    child: Divider(
+                      color: Colors.blue.shade400,
+                    ),
+                    padding:
+                        EdgeInsets.only(left: 20.0, right: 20.0, bottom: 10.0),
                   ),
                   Container(
                       padding: EdgeInsets.symmetric(horizontal: 20.0),
@@ -67,6 +80,46 @@ class SignupPage extends StatelessWidget {
                             border: InputBorder.none,
                             icon: Icon(
                               Icons.email,
+                              color: Colors.blue,
+                            )),
+                      )),
+                  Container(
+                    child: Divider(
+                      color: Colors.blue.shade400,
+                    ),
+                    padding:
+                        EdgeInsets.only(left: 20.0, right: 20.0, bottom: 10.0),
+                  ),
+                  Container(
+                      padding: EdgeInsets.symmetric(horizontal: 20.0),
+                      child: TextField(
+                        style: TextStyle(color: Colors.blue),
+                        decoration: InputDecoration(
+                            hintText: "Mobile number",
+                            hintStyle: TextStyle(color: Colors.blue.shade200),
+                            border: InputBorder.none,
+                            icon: Icon(
+                              Icons.mobile_friendly,
+                              color: Colors.blue,
+                            )),
+                      )),
+                  Container(
+                    child: Divider(
+                      color: Colors.blue.shade400,
+                    ),
+                    padding:
+                        EdgeInsets.only(left: 20.0, right: 20.0, bottom: 10.0),
+                  ),
+                  Container(
+                      padding: EdgeInsets.symmetric(horizontal: 20.0),
+                      child: TextField(
+                        style: TextStyle(color: Colors.blue),
+                        decoration: InputDecoration(
+                            hintText: "Aadhar number",
+                            hintStyle: TextStyle(color: Colors.blue.shade200),
+                            border: InputBorder.none,
+                            icon: Icon(
+                              Icons.format_list_numbered,
                               color: Colors.blue,
                             )),
                       )),
@@ -135,7 +188,7 @@ class SignupPage extends StatelessWidget {
             ],
           ),
           Container(
-            height: 420,
+            height: 600,
             child: Align(
               alignment: Alignment.bottomCenter,
               child: RaisedButton(

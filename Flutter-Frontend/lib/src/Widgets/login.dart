@@ -1,4 +1,5 @@
 import 'package:evotingapp/src/Widgets/signup.dart';
+import 'package:evotingapp/src/Widgets/main.dart';
 import 'package:flutter/material.dart';
 // import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
 // import 'package:flutter_ui_challenges/core/presentation/res/assets.dart';
@@ -13,13 +14,13 @@ class LoginPage extends StatelessWidget {
       child: ListView(
         children: <Widget>[
           SizedBox(
-            height: 30.0,
+            height: 90.0,
           ),
           // CircleAvatar(child: PNetworkImage(origami), maxRadius: 50, backgroundColor: Colors.transparent,),
-          SizedBox(
-            height: 20.0,
-          ),
-          _buildLoginForm(),
+          // SizedBox(
+          //   height: 20.0,
+          // ),
+          _buildLoginForm(context),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
@@ -40,7 +41,7 @@ class LoginPage extends StatelessWidget {
     );
   }
 
-  Container _buildLoginForm() {
+  Container _buildLoginForm(BuildContext context) {
     return Container(
       padding: EdgeInsets.all(20.0),
       child: Stack(
@@ -133,7 +134,12 @@ class LoginPage extends StatelessWidget {
             child: Align(
               alignment: Alignment.bottomCenter,
               child: RaisedButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (BuildContext context) => MainPage()));
+                },
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(40.0)),
                 child: Text("Login", style: TextStyle(color: Colors.white70)),
