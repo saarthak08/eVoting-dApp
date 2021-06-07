@@ -64,16 +64,7 @@ router.post("/signup", (req, res) => {
         newUser.accountAddress = val;
         newUser
           .save()
-          .then((user) => res.json({
-            id: user.id,
-            name: user.name,
-            email: user.email,
-            mobileNumber: user.mobileNumber,
-            aadharNumber: user.aadharNumber,
-            accountAddress: user.accountAddress,
-            isVoter: user.isVoter,
-            isCandidate: user.isCandidate,
-          }))
+          .then((user) => res.send(user.toJSON()))
       });
     });
   });
@@ -98,7 +89,6 @@ router.post("/login", (req, res) => {
     //check password
     bcrypt.compare(req.body.password, user.password).then((isMatch) => {
       if (isMatch) {
-
         //creating jwt payload
         const payload = {
           id: user.id,
@@ -121,8 +111,8 @@ router.post("/login", (req, res) => {
         errors.password = "Incorrect password!";
         return res.status(401).json(errors);
       }
-    });
-  });
+    })
+  })
 });
 
 
