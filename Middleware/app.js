@@ -11,11 +11,27 @@ app.use(morgan("dev"));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
+app.use(passport.initialize());
+require("./src/config/passport")(passport);
+
+app.use("/api/v1", require("./src/routes"));
+
 
 app.listen(port, () => {
     console.log(`server started on port: ${port}`);
 });
 
-app.get("/", (req, res) => {
-    res.send('hello world');
-})
+// development error handler
+// will print stacktrace
+if (process.env.NODE_ENV === "development") {
+    app.use(function (err, req, res, next) {
+        console.log(err);
+        res.status(500).send('Internal Server Error');
+    });
+} else {
+    // production error handler
+    // no stacktraces leaked to user
+    app.use(function (err, req, res, next) {
+        res.status(500).send('Internal Server Error');
+    });
+}
