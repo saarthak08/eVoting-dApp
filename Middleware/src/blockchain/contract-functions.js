@@ -49,9 +49,9 @@ const registerAsVoter = async (address, password) => {
 		.send({ from: address, gas: "3000000" });
 };
 
-const registerAsCandidate = async (name, party, address, password) => {
+const registerAsCandidate = async (address, password) => {
 	await unlockAccount(address, password);
-	return await eVoting.methods.registerAsCandidate(name, party).send({
+	return await eVoting.methods.registerAsCandidate().send({
 		from: address,
 		value: "50000000000000000",
 		gas: "3000000",
