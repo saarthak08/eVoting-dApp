@@ -34,7 +34,8 @@ const userSchema = mongoose.Schema({
     },
     accountAddress: {
         type: String,
-        required: true
+        required: true,
+        unique: true
     }
 
 });

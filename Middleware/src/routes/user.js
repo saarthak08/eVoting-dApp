@@ -9,10 +9,21 @@ const candidate = require('../validators/candidate');
 
 
 router.get("/", passport.authenticate('jwt', { session: false }), (req, res) => {
-    User.findOne({ email: req.user.email })
-        .then((user) => {
-            return res.send(user.toJSON());
-        })
+    if (req.query.accountAddress) {
+        User.findOne({ accountAddress: req.query.accountAddress })
+            .then((user) => {
+                if (user) {
+                    return res.send(user.toJSON());
+                } else {
+                    return res.status(404).send('No user found with given address');
+                }
+            });
+    } else {
+        User.findOne({ email: req.user.email })
+            .then((user) => {
+                return res.send(user.toJSON());
+            });
+    }
 
 });
 
@@ -67,13 +78,17 @@ router.put("/registerAsCandidate", passport.authenticate("jwt", { session: false
         user
     });
 
-    candidate.save().then((can) => {
-        User.updateOne({ _id: req.user.id }, { $set: { isCandidate: true } })
-            .then((val) => {
-                if (val.ok) {
-                    return res.send(can.toJSON());
-                }
+    registerAsCandidate(user.accountAddress, user.password).then((val) => {
+        if (val) {
+            candidate.save().then((can) => {
+                User.updateOne({ _id: req.user.id }, { $set: { isCandidate: true } })
+                    .then((val) => {
+                        if (val.ok) {
+                            return res.send(can.toJSON());
+                        }
+                    });
             });
+        }
     });
 
 
