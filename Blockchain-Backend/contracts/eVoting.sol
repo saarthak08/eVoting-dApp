@@ -4,8 +4,6 @@ pragma experimental ABIEncoderV2;
 contract eVoting {
     
     struct Candidate {
-        string name;
-        string party;
         address accountAddress;
         address[] voters;
         uint votersCount;
@@ -41,13 +39,11 @@ contract eVoting {
     }
     
     
-    function registerAsCandidate(string memory name, string memory party) public payable {
+    function registerAsCandidate() public payable {
         require(msg.value==feesForCandidates,"Wrong Fees Provided!");
         require(!candidatesMap[msg.sender],"Already a Candidate");
         address[] memory voters;
         Candidate memory candidate=Candidate({
-            name:name,
-            party:party,
             accountAddress:msg.sender,
             voters:voters,
             votersCount:0
