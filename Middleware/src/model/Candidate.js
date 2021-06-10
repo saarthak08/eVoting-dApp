@@ -13,10 +13,6 @@ const candidateSchema = mongoose.Schema({
         type: String,
         required: true
     },
-    votes: {
-        type: Number,
-        default: 0
-    },
     user: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
