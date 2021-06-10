@@ -10,7 +10,7 @@ const validateLoginInput = require('../validators/login');
 
 
 
-router.post("/signup", (req, res) => {
+router.post("/signup", async (req, res) => {
   const { errors, isValid } = validateSignupInput(req.body);
 
   if (!isValid) {
@@ -27,7 +27,7 @@ router.post("/signup", (req, res) => {
 
   // Verification to Aadhar Authentication API should take place.
 
-  User.findOne({
+  const dbUser = await User.findOne({
     $or: [
       {
         email
@@ -39,11 +39,11 @@ router.post("/signup", (req, res) => {
         mobileNumber
       }
     ]
-  }).then((val) => {
-    if (val) {
-      res.status(409).send("A user already exists with same email or aadhar number or mobile number");
-    }
   });
+
+  if (dbUser) {
+    return res.status(409).send("A user already exists with same email or aadhar number or mobile number");
+  }
 
   //sending verification code to the user email
   //sendVerifyCode(email);
@@ -79,7 +79,7 @@ router.post("/login", (req, res) => {
     return res.status(400).json(errors);
   }
 
-  User.findOne({ email: req.body.email }).then((user) => {
+  return User.findOne({ email: req.body.email }).then((user) => {
     //checking for user
     if (!user) {
       errors.email = "No user found!";

@@ -10,7 +10,7 @@ const candidate = require('../validators/candidate');
 
 router.get("/", passport.authenticate('jwt', { session: false }), (req, res) => {
     if (req.query.accountAddress) {
-        User.findOne({ accountAddress: req.query.accountAddress })
+        return User.findOne({ accountAddress: req.query.accountAddress })
             .then((user) => {
                 if (user) {
                     return res.send(user.toJSON());
@@ -19,7 +19,7 @@ router.get("/", passport.authenticate('jwt', { session: false }), (req, res) => 
                 }
             });
     } else {
-        User.findOne({ email: req.user.email })
+        return User.findOne({ email: req.user.email })
             .then((user) => {
                 return res.send(user.toJSON());
             });
@@ -28,13 +28,13 @@ router.get("/", passport.authenticate('jwt', { session: false }), (req, res) => 
 });
 
 router.put("/registerAsVoter", passport.authenticate("jwt", { session: false }), (req, res, next) => {
-    User.findOne(({ _id: req.user.id }))
+    return User.findOne(({ _id: req.user.id }))
         .then((user) => {
             if (user.isVoter) {
                 return res.status(409).send('Already registered as a voter');
             }
             user.isVoter = true;
-            registerAsVoter(user.accountAddress, user.password)
+            return registerAsVoter(user.accountAddress, user.password)
                 .then((val) => {
                     if (val) {
                         User.updateOne({ _id: req.user.id }, { $set: { isVoter: true } })
@@ -78,7 +78,7 @@ router.put("/registerAsCandidate", passport.authenticate("jwt", { session: false
         user
     });
 
-    registerAsCandidate(user.accountAddress, user.password).then((val) => {
+    return registerAsCandidate(user.accountAddress, user.password).then((val) => {
         if (val) {
             candidate.save().then((can) => {
                 User.updateOne({ _id: req.user.id }, { $set: { isCandidate: true } })

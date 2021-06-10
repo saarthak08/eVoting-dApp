@@ -16,8 +16,10 @@ router.get("/all", passport.authenticate("jwt", { session: false }), (req, res) 
         await Candidate.find({}).populate("user").then((candidates) => {
             candidates.forEach((candidate) => {
                 let candidateJSON = candidate.toJSON();
-                candidateJSON = { ...candidateJSON, ...votesMap[candidateJSON.user.accountAddress] };
-                candidatesResponse.push(candidateJSON);
+                if (votesMap[candidateJSON.user.accountAddress]) {
+                    candidateJSON = { ...candidateJSON, ...votesMap[candidateJSON.user.accountAddress] };
+                    candidatesResponse.push(candidateJSON);
+                }
             })
         });
         res.send({ candidates: candidatesResponse });
@@ -27,7 +29,7 @@ router.get("/all", passport.authenticate("jwt", { session: false }), (req, res) 
 
 router.get("/", passport.authenticate("jwt", { session: false }), (req, res) => {
     if (req.query.accountAddress) {
-        User.findOne({ accountAddress: req.query.accountAddress })
+        return User.findOne({ accountAddress: req.query.accountAddress })
             .then(async (user) => {
                 if (user && user.isCandidate) {
                     let bcCandidate;
@@ -49,7 +51,7 @@ router.get("/", passport.authenticate("jwt", { session: false }), (req, res) => 
                         return res.status(404).send("No candidate found!");
                     }
 
-                    Candidate.findOne({ user: user })
+                    return Candidate.findOne({ user: user })
                         .then((candidate) => {
                             return res.send({ ...bcCandidate, ...candidate.toJSON() });
                         })
