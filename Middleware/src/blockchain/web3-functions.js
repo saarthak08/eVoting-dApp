@@ -4,7 +4,7 @@ const addAccount = async (password) => {
 	const account = await web3.eth.personal.newAccount(password);
 	const deployerAccount = await fetchDeployerAccount();
 	await unlockAccount(deployerAccount, process.env.ACCOUNT_PASSWORD);
-	return await web3.eth.sendTransaction(
+	await web3.eth.sendTransaction(
 		{
 			from: deployerAccount,
 			to: account,
@@ -14,6 +14,7 @@ const addAccount = async (password) => {
 		},
 		process.env.ACCOUNT_PASSWORD
 	);
+	return account;
 };
 
 const unlockAccount = async (address, password) => {

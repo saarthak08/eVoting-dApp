@@ -228,3 +228,5 @@ dist
 /blockchain-data/geth/
 
 .env
+
+/src/config/keys.js

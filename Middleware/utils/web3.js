@@ -2,16 +2,17 @@ require("dotenv").config();
 
 const Web3 = require("web3");
 
+let web3;
 
-//Development
-const web3=new Web3(
-	new Web3.providers.HttpProvider("http://127.0.0.1:7545")
-);
-
-//Deployment
-/*const web3 = new Web3(
-	new Web3.providers.WebsocketProvider("ws://" + "127.0.0.1" + ":" + "8546")
-);*/
+if (process.env.NODE_ENV === "development") {
+	web3 = new Web3(
+		new Web3.providers.HttpProvider("http://127.0.0.1:7545")
+	);
+} else {
+	web3 = new Web3(
+		new Web3.providers.WebsocketProvider("ws://" + "127.0.0.1" + ":" + "8546")
+	);
+}
 
 let account;
 
