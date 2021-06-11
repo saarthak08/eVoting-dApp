@@ -8,6 +8,12 @@ import 'package:flutter/material.dart';
 class Myapp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(home: LoginPage());
+    return MaterialApp(
+      home: LoginPage(),
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      // darkTheme: ThemeData.dark(),
+    );
   }
 }

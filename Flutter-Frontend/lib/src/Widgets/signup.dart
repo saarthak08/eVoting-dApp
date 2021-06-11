@@ -10,7 +10,7 @@ class SignupPage extends StatelessWidget {
         children: <Widget>[
           CircleAvatar(
             // child: PNetworkImage(origami),
-            maxRadius: 50,
+            maxRadius: 12,
             backgroundColor: Colors.transparent,
           ),
           _buildLoginForm(),
