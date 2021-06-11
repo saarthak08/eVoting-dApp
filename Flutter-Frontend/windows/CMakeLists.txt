@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.15)
-project(evotingapp LANGUAGES CXX)
+project(evoting LANGUAGES CXX)
 
-set(BINARY_NAME "evotingapp")
+set(BINARY_NAME "evoting")
 
 cmake_policy(SET CMP0063 NEW)
 

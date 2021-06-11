@@ -1,4 +1,4 @@
-# evotingapp
+# e-Voting
 
 A new Flutter project.
 

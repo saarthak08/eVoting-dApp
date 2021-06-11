@@ -1,5 +1,5 @@
-import 'package:evotingapp/src/Widgets/signup.dart';
-import 'package:evotingapp/src/Widgets/dash.dart';
+import 'package:evoting/src/Widgets/signup.dart';
+import 'package:evoting/src/Widgets/dash.dart';
 import 'package:flutter/material.dart';
 // import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
 // import 'package:flutter_ui_challenges/core/presentation/res/assets.dart';

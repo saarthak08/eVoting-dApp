@@ -1,4 +1,4 @@
-import 'package:evotingapp/src/Widgets/Login.dart';
+import 'package:evoting/src/Widgets/Login.dart';
 import 'package:flutter/material.dart';
 // import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
 // import 'package:flutter_ui_challenges/core/presentation/res/assets.dart';

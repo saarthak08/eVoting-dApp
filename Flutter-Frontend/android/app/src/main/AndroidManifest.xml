@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.evotingapp">
+    package="com.sb.evoting">
    <application
-        android:label="evotingapp"
+        android:label="e-Voting"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"

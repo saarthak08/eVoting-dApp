@@ -1,4 +1,4 @@
-package com.example.evotingapp
+package com.sb.evoting
 
 import io.flutter.embedding.android.FlutterActivity
 
