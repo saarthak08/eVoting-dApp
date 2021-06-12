@@ -7,6 +7,7 @@ class App extends StatelessWidget {
     return MaterialApp(
       home: LoginPage(),
       theme: ThemeData(
+        fontFamily: "Nuntino Sans",
         primarySwatch: Colors.blue,
       ),
     );
