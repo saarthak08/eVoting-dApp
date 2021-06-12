@@ -24,37 +24,41 @@ class LoginPage extends StatelessWidget {
                 height: getViewportHeight(context) * 0.05,
               ),
               CircleAvatar(
-                child: PNetworkImage(imageURL),
+                child: MyNetworkImage(imageURL),
                 maxRadius: 50,
                 backgroundColor: Colors.transparent,
               ),
               SizedBox(
                 height: getViewportHeight(context) * 0.01,
               ),
-              Text(
-                appName,
-                style: TextStyle(
-                    fontFamily: "Pacifico",
-                    fontSize: getViewportHeight(context) * 0.06),
-              ),
-              _buildLoginForm(context),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  TextButton(
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (BuildContext context) => SignupPage()));
-                    },
-                    child: Text("Sign Up",
+              Hero(
+                  child: Material(
+                      type: MaterialType.transparency,
+                      child: Text(
+                        appName,
                         style: TextStyle(
-                            color: Colors.blue,
-                            fontSize: getViewportHeight(context) * 0.025)),
-                  )
-                ],
-              )
+                            fontFamily: "Pacifico",
+                            fontSize: getViewportHeight(context) * 0.06),
+                      )),
+                  tag: "appName"),
+              _buildLoginForm(context),
+              Expanded(
+                child: Align(
+                    alignment: FractionalOffset.bottomCenter,
+                    child: TextButton(
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (BuildContext context) =>
+                                      SignupPage()));
+                        },
+                        child: Text("Don't have an account? Sign Up!",
+                            style: TextStyle(
+                                color: Colors.blue,
+                                fontSize:
+                                    getViewportHeight(context) * 0.022)))),
+              ),
             ],
           ),
         )));
@@ -130,9 +134,7 @@ class LoginPage extends StatelessWidget {
                         right: getViewportHeight(context) * 0.02,
                         bottom: getViewportHeight(context) * 0.01),
                   ),
-                  SizedBox(
-                    height: 10.0,
-                  ),
+                  SizedBox(height: getViewportHeight(context) * 0.02),
                 ],
               ),
             ),
