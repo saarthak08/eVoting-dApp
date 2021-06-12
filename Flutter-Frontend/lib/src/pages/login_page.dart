@@ -1,30 +1,31 @@
-import 'package:evoting/src/Widgets/signup.dart';
-import 'package:evoting/src/Widgets/dash.dart';
+import 'package:evoting/src/pages/signup_page.dart';
+import 'package:evoting/src/widgets/network_image.dart';
 import 'package:flutter/material.dart';
-// import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
-// import 'package:flutter_ui_challenges/core/presentation/res/assets.dart';
-// import 'package:flutter_ui_challenges/src/pages/login/signup1.dart';
-// import 'package:flutter_ui_challenges/src/widgets/network_image.dart';
+import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
 
 class LoginPage extends StatelessWidget {
-  static final String path = "lib/src/pages/login/login2.dart";
   Widget _buildPageContent(BuildContext context) {
     return Container(
       color: Colors.blue.shade100,
       child: ListView(
         children: <Widget>[
           SizedBox(
-            height: 90.0,
+            height: 30.0,
           ),
-          // CircleAvatar(child: PNetworkImage(origami), maxRadius: 50, backgroundColor: Colors.transparent,),
-          // SizedBox(
-          //   height: 20.0,
-          // ),
-          _buildLoginForm(context),
+          CircleAvatar(
+            child: PNetworkImage(
+                'https://firebasestorage.googleapis.com/v0/b/dl-flutter-ui-challenges.appspot.com/o/img%2Forigami.png?alt=media'),
+            maxRadius: 50,
+            backgroundColor: Colors.transparent,
+          ),
+          SizedBox(
+            height: 20.0,
+          ),
+          _buildLoginForm(),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              FlatButton(
+              TextButton(
                 onPressed: () {
                   Navigator.push(
                       context,
@@ -41,13 +42,13 @@ class LoginPage extends StatelessWidget {
     );
   }
 
-  Container _buildLoginForm(BuildContext context) {
+  Container _buildLoginForm() {
     return Container(
       padding: EdgeInsets.all(20.0),
       child: Stack(
         children: <Widget>[
           ClipPath(
-            // clipper: RoundedDiagonalPathClipper(),
+            clipper: RoundedDiagonalPathClipper(),
             child: Container(
               height: 400,
               padding: EdgeInsets.all(10.0),
@@ -133,17 +134,15 @@ class LoginPage extends StatelessWidget {
             height: 420,
             child: Align(
               alignment: Alignment.bottomCenter,
-              child: RaisedButton(
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (BuildContext context) => MainPage()));
-                },
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(40.0)),
+              child: ElevatedButton(
+                onPressed: () {},
+                style: ButtonStyle(
+                    shape: MaterialStateProperty.all(
+                      RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(40.0)),
+                    ),
+                    backgroundColor: MaterialStateProperty.all(Colors.blue)),
                 child: Text("Login", style: TextStyle(color: Colors.white70)),
-                color: Colors.blue,
               ),
             ),
           )
@@ -154,6 +153,8 @@ class LoginPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(body: _buildPageContent(context));
+    return Scaffold(
+      body: _buildPageContent(context),
+    );
   }
 }

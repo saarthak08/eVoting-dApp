@@ -1,4 +1,3 @@
-import 'package:evoting/src/Widgets/network_image.dart';
 import 'package:flutter/material.dart';
 
 class SignupPage extends StatelessWidget {
