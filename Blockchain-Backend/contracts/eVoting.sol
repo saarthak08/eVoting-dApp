@@ -1,3 +1,4 @@
+//SPDX-License-Identifier: UNLICENSED
 pragma solidity >=0.5.0 <0.8.0;
 pragma experimental ABIEncoderV2;
 
@@ -21,8 +22,10 @@ contract eVoting {
     uint256 public totalVotersCount;
     uint256 public totalVotesCount;
     uint256 public totalCandidatesCount;
+    bool public isVotingStarted;
 
     modifier restrictVoting() {
+        require(isVotingStarted, "Voting isn't started yet");
         require(msg.sender.balance != 0, "Insufficient Balance");
         require(totalVotersList[msg.sender], "Not a Voter");
         require(!votedList[msg.sender], "Already Voted");
@@ -34,9 +37,21 @@ contract eVoting {
         electionCommissioner = msg.sender;
         feesForCandidates = 0.05 ether;
         feesForVoters = 0.8 ether;
+        isVotingStarted = false;
+    }
+
+    function startVoting() public {
+        require(msg.sender == electionCommissioner, "Unauthorized");
+        isVotingStarted = true;
+    }
+
+    function stopVoting() public {
+        require(msg.sender == electionCommissioner, "Unauthorized");
+        isVotingStarted = false;
     }
 
     function registerAsCandidate() public payable {
+        require(!isVotingStarted, "Voting already started! Can't register");
         require(msg.value == feesForCandidates, "Wrong Fees Provided!");
         require(!candidatesMap[msg.sender], "Already a Candidate");
         address[] memory voters;
@@ -52,6 +67,7 @@ contract eVoting {
     }
 
     function registerAsVoter() public {
+        require(!isVotingStarted, "Voting already started! Can't register");
         require(!totalVotersList[msg.sender], "Already Registered Voter!");
         totalVotersCount++;
         totalVotersList[msg.sender] = true;

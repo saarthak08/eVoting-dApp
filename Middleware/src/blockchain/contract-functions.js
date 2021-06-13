@@ -42,12 +42,30 @@ const getElectionCommissioner = async () => {
 	return await eVoting.methods.electionCommissioner().call();
 };
 
+const isVotingStarted = async () => {
+	return await eVoting.methods.isVotingStarted().call();
+}
+
 const registerAsVoter = async (address, password) => {
 	await unlockAccount(address, password);
 	return await eVoting.methods
 		.registerAsVoter()
 		.send({ from: address, gas: "3000000" });
 };
+
+const startVoting = async (address, password) => {
+	await unlockAccount(address, password);
+	return await eVoting.methods
+		.startVoting()
+		.send({ from: address, gas: "3000000" });
+}
+
+const stopVoting = async (address, password) => {
+	await unlockAccount(address, password);
+	return await eVoting.methods
+		.stopVoting()
+		.send({ from: address, gas: "3000000" });
+}
 
 const registerAsCandidate = async (address, password) => {
 	await unlockAccount(address, password);
@@ -81,4 +99,7 @@ module.exports = {
 	registerAsVoter,
 	vote,
 	hasVoted,
+	startVoting,
+	stopVoting,
+	isVotingStarted
 };

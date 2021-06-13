@@ -1,11 +1,53 @@
 const router = require('express').Router();
 const passport = require('passport');
 const bcrypt = require('bcrypt');
-const { getElectionCommissioner, vote, getTotalVotersCount, getTotalVotesCount, isVoter, getCandidates } = require('../blockchain/contract-functions');
+const { getElectionCommissioner, vote, getTotalVotersCount,
+    getTotalVotesCount, isVoter, getCandidates,
+    startVoting, stopVoting, isVotingStarted } = require('../blockchain/contract-functions');
 const User = require('../model/User');
-const candidate = require('../validators/candidate');
 const validateVotingInputs = require('../validators/voting');
 
+
+router.get('/start', passport.authenticate('jwt', { session: false }), async (req, res) => {
+    const electionCommissioner = await getElectionCommissioner();
+    if (req.user.accountAddress === electionCommissioner) {
+        const votingStatus = await isVotingStarted();
+        if (!votingStatus) {
+            startVoting(req.user.accountAddress, req.user.password).then((val) => {
+                if (val) {
+                    return res.send('Voting started');
+                }
+            });
+        } else {
+            return res.status(409).send('Voting already started');
+        }
+    } else {
+        return res.status(401).send('Unauthorized');
+    }
+});
+
+router.get('/stop', passport.authenticate('jwt', { session: false }), async (req, res) => {
+    const electionCommissioner = await getElectionCommissioner();
+    if (req.user.accountAddress === electionCommissioner) {
+        const votingStatus = await isVotingStarted();
+        if (votingStatus) {
+            stopVoting(req.user.accountAddress, req.user.password).then((val) => {
+                if (val) {
+                    return res.send('Voting stopped');
+                }
+            });
+        } else {
+            return res.status(409).send('Voting already stopped');
+        }
+    } else {
+        return res.status(401).send('Unauthorized');
+    }
+});
+
+router.get('/', passport.authenticate('jwt', { session: false }), async (req, res) => {
+    const votingStatus = await isVotingStarted();
+    return res.send({ votingStatus: votingStatus });
+});
 
 router.get('/election-commissioner', passport.authenticate('jwt', { session: false }), (req, res) => {
     getElectionCommissioner().then((electionCommissioner) => {

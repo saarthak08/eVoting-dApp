@@ -2,6 +2,7 @@ const express = require('express');
 const morgan = require("morgan");
 const passport = require("passport");
 const db = require("./src/config/db");
+const addElectionCommissionerUser = require('./src/config/seed');
 
 const port = process.env.PORT || 3000;
 const app = express();
@@ -19,6 +20,10 @@ app.use("/api/v1", require("./src/routes"));
 
 app.listen(port, () => {
     console.log(`server started on port: ${port}`);
+});
+
+db.once('open', () => {
+    addElectionCommissionerUser();
 });
 
 // development error handler
