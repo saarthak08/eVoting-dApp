@@ -48,6 +48,34 @@ class _UserRepository implements UserNetwork {
       },
     );
   }
+
+  @override
+  Future<Response> registerAsVoter() async {
+    return await _client.put(
+      Uri.parse('$baseURL/user/register-as-voter'),
+      headers: {
+        HttpHeaders.contentTypeHeader: 'application/json',
+        HttpHeaders.authorizationHeader: networkToken
+      },
+    );
+  }
+
+  @override
+  Future<Response> registerAsCandidate(
+      String name, String partyName, String manifesto) async {
+    return await _client.put(
+      Uri.parse('$baseURL/user/register-as-candidate'),
+      headers: {
+        HttpHeaders.contentTypeHeader: 'application/json',
+        HttpHeaders.authorizationHeader: networkToken
+      },
+      body: jsonEncode(<String, dynamic>{
+        'name': name,
+        'partyName': partyName,
+        'manifesto': manifesto,
+      }),
+    );
+  }
 }
 
 _UserRepository? _userRepository;

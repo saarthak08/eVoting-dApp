@@ -1,13 +1,16 @@
 import 'dart:convert';
 
+import 'package:evoting/src/dialogs/candidate_register_dialog.dart';
 import 'package:evoting/src/dialogs/log_out_dialog.dart';
 import 'package:evoting/src/models/user.dart';
 import 'package:evoting/src/pages/candidates_page.dart';
 import 'package:evoting/src/pages/election_status_page.dart';
 import 'package:evoting/src/providers/user_provider.dart';
+import 'package:evoting/src/repository/impl/user_repository.dart';
 import 'package:evoting/src/utils/app_utils.dart';
 import 'package:evoting/src/utils/dimensions.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -133,22 +136,35 @@ class _HomePageState extends State<HomePage> {
               title: Text(userProvider?.user.isVoter
                   ? "Registered as Voter"
                   : 'Register as Voter'),
-              onTap: () {
-                Navigator.pop(context);
+              onTap: () async {
+                await userRepository.registerAsVoter().then((value) async {
+                  if (value.statusCode == 200) {
+                    var user = userProvider!.user;
+                    user.isVoter = true;
+                    userProvider?.user = user;
+                    SharedPreferences sharedPreferences =
+                        await SharedPreferences.getInstance();
+                    sharedPreferences.setString(
+                        "user", json.encode(user.toMap()));
+                    Fluttertoast.showToast(msg: "Registered as Voter");
+                  } else {
+                    print(value.body);
+                  }
+                });
               },
               trailing: userProvider?.user.isVoter
                   ? Icon(Icons.verified)
                   : Icon(Icons.navigate_next_outlined),
             ),
             ListTile(
-              enabled: !userProvider?.user.isVoter,
-              title: Text(userProvider?.user.isVoter
+              enabled: !userProvider?.user.isCandidate,
+              title: Text(userProvider?.user.isCandidate
                   ? "Registered as Candidate"
                   : 'Register as Candidate'),
-              onTap: () {
-                Navigator.pop(context);
+              onTap: () async {
+                await showCandidateRegisterDialog(context, userProvider);
               },
-              trailing: userProvider?.user.isVoter
+              trailing: userProvider?.user.isCandidate
                   ? Icon(Icons.verified)
                   : Icon(Icons.navigate_next_outlined),
             ),
@@ -156,7 +172,6 @@ class _HomePageState extends State<HomePage> {
               title: Text("Log Out"),
               onTap: () async {
                 await showLogoutDialog(context, userProvider);
-                Navigator.pop(context);
               },
               trailing: Icon(Icons.logout),
             ),

@@ -56,4 +56,17 @@ class User {
       print("Error in parsing JSON to User Object: " + err.toString());
     }
   }
+
+  Map<String, dynamic> toMap() {
+    Map<String, dynamic> map = Map<String, dynamic>();
+    map['name'] = this.name;
+    map['email'] = this.email;
+    map['mobileNumber'] = this.mobileNumber;
+    map['aadharNumber'] = this.aadharNumber;
+    map['accountAddress'] = this.accountAddress;
+    map['isVoter'] = this.isVoter;
+    map['isCandidate'] = this.isCandidate;
+    map['id'] = this.id;
+    return map;
+  }
 }
