@@ -1,6 +1,8 @@
 import 'dart:convert';
 
 import 'package:evoting/src/models/user.dart';
+import 'package:evoting/src/pages/candidates_page.dart';
+import 'package:evoting/src/pages/election_status_page.dart';
 import 'package:evoting/src/providers/user_provider.dart';
 import 'package:evoting/src/utils/app_utils.dart';
 import 'package:evoting/src/utils/dimensions.dart';
@@ -39,6 +41,7 @@ class _HomePageState extends State<HomePage> {
     userProvider = Provider.of<UserProvider>(context);
     return Scaffold(
       appBar: AppBar(
+        brightness: Brightness.dark,
         title: Text(selectedIndex == 0
             ? 'Candidates'
             : selectedIndex == 1
@@ -46,7 +49,7 @@ class _HomePageState extends State<HomePage> {
                 : ''),
         centerTitle: true,
       ),
-      body: Center(child: Text('My Page!')),
+      body: getBody(),
       drawer: Drawer(
         child: ListView(
           padding: EdgeInsets.zero,
@@ -159,5 +162,16 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
     );
+  }
+
+  Widget getBody() {
+    switch (selectedIndex) {
+      case 0:
+        return CandidatesPage();
+      case 1:
+        return ElectionStatusPage();
+      default:
+        return Container();
+    }
   }
 }
