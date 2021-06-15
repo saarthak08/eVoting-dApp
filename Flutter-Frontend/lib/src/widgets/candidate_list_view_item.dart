@@ -36,7 +36,7 @@ class _CandidateListViewItemState extends State<CandidateListViewItem> {
           Text(
             candidate.name,
             style: TextStyle(
-                fontSize: getViewportHeight(context) * 0.04,
+                fontSize: getViewportHeight(context) * 0.035,
                 color: Colors.blue),
           ),
           SizedBox(
