@@ -2,6 +2,7 @@ import 'package:evoting/src/pages/login_page.dart';
 import 'package:evoting/src/pages/home_page.dart';
 import 'package:evoting/src/pages/signup_page.dart';
 import 'package:evoting/src/providers/user_provider.dart';
+import 'package:evoting/src/providers/voting_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -16,6 +17,9 @@ class App extends StatelessWidget {
         providers: [
           ChangeNotifierProvider(
             create: (ctx) => UserProvider(),
+          ),
+          ChangeNotifierProvider(
+            create: (ctx) => VotingProvider(),
           ),
         ],
         child: MaterialApp(

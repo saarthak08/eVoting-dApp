@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:evoting/src/models/candidate.dart';
 import 'package:evoting/src/providers/user_provider.dart';
+import 'package:evoting/src/providers/voting_provider.dart';
 import 'package:evoting/src/repository/impl/candidate_repository.dart';
 import 'package:evoting/src/utils/dimensions.dart';
 import 'package:evoting/src/widgets/candidate_list_view_item.dart';
@@ -17,6 +18,7 @@ class CandidatesPage extends StatefulWidget {
 
 class _CandidatesPageState extends State<CandidatesPage> {
   UserProvider? userProvider;
+  VotingProvider? votingProvider;
   late double viewportHeight;
   late double viewportWidth;
   List<dynamic> candidates = [];
@@ -51,6 +53,8 @@ class _CandidatesPageState extends State<CandidatesPage> {
     viewportHeight = getViewportHeight(context);
     viewportWidth = getViewportWidth(context);
     userProvider = Provider.of<UserProvider>(context);
+    votingProvider = Provider.of<VotingProvider>(context);
+
     return RefreshIndicator(
         key: refreshIndicatorKey,
         onRefresh: () async {
@@ -69,6 +73,7 @@ class _CandidatesPageState extends State<CandidatesPage> {
                 itemBuilder: (BuildContext context, int index) {
                   return CandidateListViewItem(
                     candidate: candidates[index],
+                    votingProvider: votingProvider,
                   );
                 })));
   }

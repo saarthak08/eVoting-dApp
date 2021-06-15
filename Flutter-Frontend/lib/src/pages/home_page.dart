@@ -6,7 +6,9 @@ import 'package:evoting/src/models/user.dart';
 import 'package:evoting/src/pages/candidates_page.dart';
 import 'package:evoting/src/pages/election_status_page.dart';
 import 'package:evoting/src/providers/user_provider.dart';
+import 'package:evoting/src/providers/voting_provider.dart';
 import 'package:evoting/src/repository/impl/user_repository.dart';
+import 'package:evoting/src/repository/impl/voting_repository.dart';
 import 'package:evoting/src/utils/app_utils.dart';
 import 'package:evoting/src/utils/dimensions.dart';
 import 'package:flutter/material.dart';
@@ -23,6 +25,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   UserProvider? userProvider;
+  VotingProvider? votingProvider;
   int selectedIndex = 0;
 
   @override
@@ -37,12 +40,20 @@ class _HomePageState extends State<HomePage> {
         User user = User.fromJSON(json.decode(userString));
         userProvider?.user = user;
       }
+      votingRepository.votingStatus().then((value) {
+        if (value.statusCode == 200) {
+          votingProvider?.votingStatus =
+              json.decode(value.body)['votingStatus'];
+        }
+      });
     });
   }
 
   @override
   Widget build(BuildContext context) {
     userProvider = Provider.of<UserProvider>(context);
+    votingProvider = Provider.of<VotingProvider>(context);
+
     return Scaffold(
       appBar: AppBar(
         brightness: Brightness.dark,
@@ -168,6 +179,33 @@ class _HomePageState extends State<HomePage> {
                   ? Icon(Icons.verified)
                   : Icon(Icons.navigate_next_outlined),
             ),
+            userProvider?.user.email == "ec@evoting.com"
+                ? ListTile(
+                    enabled: !votingProvider!.votingStatus,
+                    title: Text("Start Voting"),
+                    onTap: () async {
+                      await votingRepository.startVoting().then((value) {
+                        if (value.statusCode == 200) {
+                          votingProvider!.votingStatus = true;
+                        }
+                      });
+                    },
+                    trailing: Icon(Icons.navigate_next_outlined),
+                  )
+                : Container(),
+            userProvider?.user.email == "ec@evoting.com"
+                ? ListTile(
+                    enabled: votingProvider!.votingStatus,
+                    title: Text("Stop Voting"),
+                    onTap: () async {
+                      await votingRepository.stopVoting().then((value) {
+                        if (value.statusCode == 200) {
+                          votingProvider!.votingStatus = false;
+                        }
+                      });
+                    },
+                    trailing: Icon(Icons.navigate_next_outlined))
+                : Container(),
             ListTile(
               title: Text("Log Out"),
               onTap: () async {

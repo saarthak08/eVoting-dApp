@@ -1,27 +1,31 @@
 import 'package:evoting/src/dialogs/vote_dialog.dart';
 import 'package:evoting/src/models/candidate.dart';
 import 'package:evoting/src/providers/user_provider.dart';
+import 'package:evoting/src/providers/voting_provider.dart';
 import 'package:evoting/src/utils/dimensions.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class CandidateListViewItem extends StatefulWidget {
   final Candidate candidate;
+  final VotingProvider? votingProvider;
 
-  const CandidateListViewItem({Key? key, required this.candidate})
+  const CandidateListViewItem(
+      {Key? key, required this.candidate, this.votingProvider})
       : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
-    return new _CandidateListViewItemState(candidate);
+    return new _CandidateListViewItemState(candidate, votingProvider);
   }
 }
 
 class _CandidateListViewItemState extends State<CandidateListViewItem> {
   final Candidate candidate;
   UserProvider? userProvider;
+  final VotingProvider? votingProvider;
 
-  _CandidateListViewItemState(this.candidate);
+  _CandidateListViewItemState(this.candidate, this.votingProvider);
 
   @override
   Widget build(BuildContext context) {
@@ -108,10 +112,12 @@ class _CandidateListViewItemState extends State<CandidateListViewItem> {
                       fontWeight: FontWeight.normal),
                 )
               ])),
-          SizedBox(
-            height: getViewportHeight(context) * 0.02,
-          ),
-          userProvider?.user.isVoter
+          userProvider?.user.isVoter && votingProvider!.votingStatus
+              ? SizedBox(
+                  height: getViewportHeight(context) * 0.02,
+                )
+              : Container(),
+          userProvider?.user.isVoter && votingProvider!.votingStatus
               ? Align(
                   alignment: Alignment.center,
                   child: ElevatedButton(
