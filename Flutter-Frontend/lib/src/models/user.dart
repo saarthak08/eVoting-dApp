@@ -44,7 +44,6 @@ class User {
 
   User.fromJSON(Map<String, dynamic> map) {
     try {
-      this._id = map["id"];
       this._email = map["email"];
       this._name = map["name"];
       this._mobileNumber = map["mobileNumber"];
@@ -52,6 +51,7 @@ class User {
       this._aadharNumber = map["aadharNumber"];
       this._isVoter = map["isVoter"];
       this._isCandidate = map["isCandidate"];
+      this._id = map["id"];
     } catch (err) {
       print("Error in parsing JSON to User Object: " + err.toString());
     }

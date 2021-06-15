@@ -20,14 +20,15 @@ class _UserRepository implements UserNetwork {
   }
 
   @override
-  Future<Response> signup(String email, String password, String confirmPassword,
-      String mobileNumber, String aadharNumber) async {
+  Future<Response> signup(String name, String email, String password,
+      String confirmPassword, String mobileNumber, String aadharNumber) async {
     return await _client.post(
       Uri.parse('$baseURL/signup'),
       headers: {
         HttpHeaders.contentTypeHeader: 'application/json',
       },
       body: jsonEncode(<String, dynamic>{
+        'name': name,
         'email': email,
         'password': password,
         'confirmPassword': confirmPassword,

@@ -23,18 +23,12 @@ class _CandidatesPageState extends State<CandidatesPage> {
   final GlobalKey<RefreshIndicatorState> refreshIndicatorKey =
       GlobalKey<RefreshIndicatorState>();
 
-  final Candidate candidate = Candidate.empty();
-  _CandidatesPageState() {
-    candidate.name = "hi";
-    candidate.partyName = "ba";
-    candidate.manifesto =
-        "fjsdlkfajsdfkfdjsfkl;sdjfklsajdlfkjsdklfjsd;klfjsdlak;fjklsdjf;klsadjfkl;dsajfklasdjflk;sadjflk;sdjkl;fjsdlkfjdsklfjskld;jfkls;adjflksdjflksdajfklsadjflksdjfklsjdfkl;jsdlk;fjsdkl;fjksladjfaksldjf;";
-  }
-
   @override
   void initState() {
     super.initState();
-    fetchCandidates();
+    WidgetsBinding.instance!.addPostFrameCallback((_) async {
+      refreshIndicatorKey.currentState?.show();
+    });
   }
 
   void fetchCandidates() async {

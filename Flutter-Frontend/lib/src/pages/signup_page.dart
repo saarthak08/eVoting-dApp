@@ -10,6 +10,7 @@ class SignupPage extends StatelessWidget {
   final String imageURL =
       "https://firebasestorage.googleapis.com/v0/b/dl-flutter-ui-challenges.appspot.com/o/img%2Forigami.png?alt=media";
   final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _nameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _confirmPasswordController =
       TextEditingController();
@@ -70,7 +71,7 @@ class SignupPage extends StatelessWidget {
           ClipPath(
             clipper: RoundedDiagonalPathClipper(),
             child: Container(
-              height: getViewportHeight(context) * 0.65,
+              height: getViewportHeight(context) * 0.7,
               padding: EdgeInsets.all(10.0),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.all(Radius.circular(40.0)),
@@ -81,6 +82,32 @@ class SignupPage extends StatelessWidget {
                 children: <Widget>[
                   SizedBox(
                     height: getViewportHeight(context) * 0.1,
+                  ),
+                  Container(
+                      padding: EdgeInsets.symmetric(
+                          horizontal: getViewportHeight(context) * 0.02),
+                      child: TextField(
+                        controller: _nameController,
+                        style: TextStyle(
+                            color: Colors.black, fontFamily: "Mulish"),
+                        decoration: InputDecoration(
+                            hintText: "Name",
+                            hintStyle: TextStyle(
+                                color: Colors.black, fontFamily: "Mulish"),
+                            border: InputBorder.none,
+                            icon: Icon(
+                              Icons.email,
+                              color: Colors.blue,
+                            )),
+                      )),
+                  Container(
+                    child: Divider(
+                      color: Colors.blue.shade400,
+                    ),
+                    padding: EdgeInsets.only(
+                        left: getViewportHeight(context) * 0.02,
+                        right: getViewportHeight(context) * 0.02,
+                        bottom: getViewportHeight(context) * 0.01),
                   ),
                   Container(
                       padding: EdgeInsets.symmetric(
@@ -240,13 +267,14 @@ class SignupPage extends StatelessWidget {
             ],
           ),
           Container(
-            height: getViewportHeight(context) * 0.68,
+            height: getViewportHeight(context) * 0.73,
             child: Align(
               alignment: Alignment.bottomCenter,
               child: ElevatedButton(
                 onPressed: () async {
                   userRepository
                       .signup(
+                          _nameController.text,
                           _emailController.text,
                           _passwordController.text,
                           _confirmPasswordController.text,
@@ -259,6 +287,7 @@ class SignupPage extends StatelessWidget {
                               "Error! A user already exists with given email or mobile number or aadhar number");
                     }
                     if (response.statusCode == 200) {
+                      Fluttertoast.showToast(msg: "Successfully Registered!");
                       Navigator.pop(context);
                     }
                     if (response.statusCode == 400) {

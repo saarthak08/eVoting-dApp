@@ -41,6 +41,7 @@ class Candidate {
       this._name = map["name"];
       this._manifesto = map["manifesto"];
       this._votes = map["votes"];
+      map["user"]["id"] = '';
       this._user = User.fromJSON(map["user"]);
     } catch (err) {
       print("Error in parsing JSON to Candidate Object: " + err.toString());

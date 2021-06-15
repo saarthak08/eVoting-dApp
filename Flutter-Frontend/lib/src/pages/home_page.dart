@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:evoting/src/dialogs/log_out_dialog.dart';
 import 'package:evoting/src/models/user.dart';
 import 'package:evoting/src/pages/candidates_page.dart';
 import 'package:evoting/src/pages/election_status_page.dart';
@@ -153,7 +154,8 @@ class _HomePageState extends State<HomePage> {
             ),
             ListTile(
               title: Text("Log Out"),
-              onTap: () {
+              onTap: () async {
+                await showLogoutDialog(context, userProvider);
                 Navigator.pop(context);
               },
               trailing: Icon(Icons.logout),
