@@ -27,7 +27,7 @@ router.get("/", passport.authenticate('jwt', { session: false }), (req, res) => 
 
 });
 
-router.put("/registerAsVoter", passport.authenticate("jwt", { session: false }), (req, res, next) => {
+router.put("/register-as-voter", passport.authenticate("jwt", { session: false }), (req, res, next) => {
     return User.findOne(({ _id: req.user.id }))
         .then((user) => {
             if (user.isVoter) {
@@ -53,7 +53,7 @@ router.put("/registerAsVoter", passport.authenticate("jwt", { session: false }),
         });
 });
 
-router.put("/registerAsCandidate", passport.authenticate("jwt", { session: false }), async (req, res, next) => {
+router.put("/register-as-candidate", passport.authenticate("jwt", { session: false }), async (req, res, next) => {
 
     const { errors, isValid } = validateRegisterAsCandidateInput(req.body);
 
@@ -90,11 +90,6 @@ router.put("/registerAsCandidate", passport.authenticate("jwt", { session: false
             });
         }
     });
-
-
-
-
-
 });
 
 module.exports = router;
