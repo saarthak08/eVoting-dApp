@@ -89,13 +89,15 @@ Future<void> showCandidateRegisterDialog(context, userProvider) {
                       sharedPreferences.setString(
                           "user", json.encode(user.toMap()));
                       Fluttertoast.showToast(msg: "Registered as Candidate");
+                      Navigator.of(context, rootNavigator: true).pop('dialog');
                     } else if (value.statusCode == 400) {
                       Fluttertoast.showToast(msg: "Error: ${value.body}");
+                    } else if (value.statusCode == 500) {
+                      Fluttertoast.showToast(msg: "Error! ${value.body}");
                     }
                   }).catchError((err) {
                     Fluttertoast.showToast(msg: "Error: $err");
                   });
-                  Navigator.of(context, rootNavigator: true).pop('dialog');
                 }),
             TextButton(
                 child: Text('Cancel',

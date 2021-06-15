@@ -1,3 +1,4 @@
+import 'package:evoting/src/dialogs/vote_dialog.dart';
 import 'package:evoting/src/models/candidate.dart';
 import 'package:evoting/src/providers/user_provider.dart';
 import 'package:evoting/src/utils/dimensions.dart';
@@ -70,6 +71,27 @@ class _CandidateListViewItemState extends State<CandidateListViewItem> {
         children: [
           RichText(
               text: TextSpan(
+                  text: "Account Address: ",
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontFamily: "Averia Serif Libre",
+                      fontSize: getViewportHeight(context) * 0.018,
+                      fontWeight: FontWeight.bold),
+                  children: [
+                TextSpan(
+                  text: candidate.user.accountAddress,
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontFamily: "Mulish",
+                      fontSize: getViewportHeight(context) * 0.018,
+                      fontWeight: FontWeight.normal),
+                )
+              ])),
+          SizedBox(
+            height: getViewportHeight(context) * 0.01,
+          ),
+          RichText(
+              text: TextSpan(
                   text: "Manifesto: ",
                   style: TextStyle(
                       color: Colors.black,
@@ -93,7 +115,9 @@ class _CandidateListViewItemState extends State<CandidateListViewItem> {
               ? Align(
                   alignment: Alignment.center,
                   child: ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () async {
+                      await showVotingDialog(context, candidate);
+                    },
                     style: ButtonStyle(
                         shape: MaterialStateProperty.all(
                           RoundedRectangleBorder(

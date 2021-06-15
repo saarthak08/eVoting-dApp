@@ -62,6 +62,8 @@ class _CandidatesPageState extends State<CandidatesPage> {
                 vertical: viewportHeight * 0.025,
                 horizontal: viewportWidth * 0.01),
             child: ListView.builder(
+                physics: BouncingScrollPhysics(
+                    parent: AlwaysScrollableScrollPhysics()),
                 itemCount: candidates.length,
                 addAutomaticKeepAlives: true,
                 itemBuilder: (BuildContext context, int index) {
