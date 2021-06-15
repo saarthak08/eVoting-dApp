@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:evoting/src/repository/network_config.dart';
 import 'package:http/http.dart';
 
@@ -11,8 +12,8 @@ class _UserRepository implements UserNetwork {
   Future<Response> login(String email, String password) async {
     return await _client.post(
       Uri.parse('$baseURL/login'),
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
+      headers: {
+        HttpHeaders.contentTypeHeader: 'application/json',
       },
       body: jsonEncode(<String, dynamic>{'email': email, 'password': password}),
     );
@@ -23,8 +24,8 @@ class _UserRepository implements UserNetwork {
       String mobileNumber, String aadharNumber) async {
     return await _client.post(
       Uri.parse('$baseURL/signup'),
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
+      headers: {
+        HttpHeaders.contentTypeHeader: 'application/json',
       },
       body: jsonEncode(<String, dynamic>{
         'email': email,
@@ -33,6 +34,17 @@ class _UserRepository implements UserNetwork {
         'mobileNumber': mobileNumber,
         'aadharNumber': aadharNumber
       }),
+    );
+  }
+
+  @override
+  Future<Response> getUserInfo(String? accountAddress) async {
+    return await _client.get(
+      Uri.parse('$baseURL/user?accountAddress=$accountAddress'),
+      headers: {
+        HttpHeaders.contentTypeHeader: 'application/json',
+        HttpHeaders.authorizationHeader: networkToken
+      },
     );
   }
 }

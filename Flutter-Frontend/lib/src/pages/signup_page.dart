@@ -1,12 +1,20 @@
 import 'package:evoting/src/pages/login_page.dart';
+import 'package:evoting/src/repository/impl/user_repository.dart';
 import 'package:evoting/src/utils/app_utils.dart';
 import 'package:evoting/src/utils/dimensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class SignupPage extends StatelessWidget {
   final String imageURL =
       "https://firebasestorage.googleapis.com/v0/b/dl-flutter-ui-challenges.appspot.com/o/img%2Forigami.png?alt=media";
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _confirmPasswordController =
+      TextEditingController();
+  final TextEditingController _aadharController = TextEditingController();
+  final TextEditingController _mobileNumberController = TextEditingController();
 
   Widget _buildPageContent(BuildContext context) {
     return GestureDetector(
@@ -78,6 +86,7 @@ class SignupPage extends StatelessWidget {
                       padding: EdgeInsets.symmetric(
                           horizontal: getViewportHeight(context) * 0.02),
                       child: TextField(
+                        controller: _emailController,
                         keyboardType: TextInputType.emailAddress,
                         style: TextStyle(
                             color: Colors.black, fontFamily: "Mulish"),
@@ -104,6 +113,8 @@ class SignupPage extends StatelessWidget {
                       padding: EdgeInsets.symmetric(
                           horizontal: getViewportHeight(context) * 0.02),
                       child: TextField(
+                        obscureText: true,
+                        controller: _passwordController,
                         keyboardType: TextInputType.visiblePassword,
                         style: TextStyle(
                             color: Colors.black, fontFamily: "Mulish"),
@@ -130,6 +141,8 @@ class SignupPage extends StatelessWidget {
                       padding: EdgeInsets.symmetric(
                           horizontal: getViewportHeight(context) * 0.02),
                       child: TextField(
+                        obscureText: true,
+                        controller: _confirmPasswordController,
                         style: TextStyle(
                             color: Colors.black, fontFamily: "Mulish"),
                         keyboardType: TextInputType.visiblePassword,
@@ -156,6 +169,7 @@ class SignupPage extends StatelessWidget {
                       padding: EdgeInsets.symmetric(
                           horizontal: getViewportHeight(context) * 0.02),
                       child: TextField(
+                        controller: _aadharController,
                         maxLength: 12,
                         keyboardType: TextInputType.numberWithOptions(
                             decimal: false, signed: false),
@@ -185,6 +199,7 @@ class SignupPage extends StatelessWidget {
                       padding: EdgeInsets.symmetric(
                           horizontal: getViewportHeight(context) * 0.02),
                       child: TextField(
+                        controller: _mobileNumberController,
                         maxLength: 10,
                         keyboardType: TextInputType.phone,
                         style: TextStyle(
@@ -229,7 +244,31 @@ class SignupPage extends StatelessWidget {
             child: Align(
               alignment: Alignment.bottomCenter,
               child: ElevatedButton(
-                onPressed: () {},
+                onPressed: () async {
+                  userRepository
+                      .signup(
+                          _emailController.text,
+                          _passwordController.text,
+                          _confirmPasswordController.text,
+                          _mobileNumberController.text,
+                          _aadharController.text)
+                      .then((response) {
+                    if (response.statusCode == 409) {
+                      Fluttertoast.showToast(
+                          msg:
+                              "Error! A user already exists with given email or mobile number or aadhar number");
+                    }
+                    if (response.statusCode == 200) {
+                      Navigator.pop(context);
+                    }
+                    if (response.statusCode == 400) {
+                      Fluttertoast.showToast(
+                          msg: "Input Error: ${response.body}");
+                    }
+                  }).catchError((err) {
+                    Fluttertoast.showToast(msg: err.toString());
+                  });
+                },
                 style: ButtonStyle(
                     shape: MaterialStateProperty.all(
                       RoundedRectangleBorder(

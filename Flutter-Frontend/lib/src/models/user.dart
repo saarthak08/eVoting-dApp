@@ -3,7 +3,7 @@ class User {
   String _name = "";
   String _email = "";
   int _mobileNumber = 0;
-  String _aadharNumber = "";
+  int _aadharNumber = 0;
   String _accountAddress = "";
   bool _isVoter = false;
   bool _isCandidate = false;

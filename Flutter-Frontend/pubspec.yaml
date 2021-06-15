@@ -32,6 +32,8 @@ dependencies:
   flutter_custom_clippers: ^2.0.0
   provider: ^5.0.0
   shared_preferences: ^2.0.6
+  fluttertoast: ^8.0.7
+
 
 
 dev_dependencies:

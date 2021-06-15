@@ -1,13 +1,21 @@
+import 'dart:convert';
+
 import 'package:evoting/src/pages/signup_page.dart';
+import 'package:evoting/src/repository/impl/user_repository.dart';
+import 'package:evoting/src/repository/network_config.dart';
 import 'package:evoting/src/utils/app_utils.dart';
 import 'package:evoting/src/utils/dimensions.dart';
 import 'package:evoting/src/widgets/network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginPage extends StatelessWidget {
   final String imageURL =
       "https://firebasestorage.googleapis.com/v0/b/dl-flutter-ui-challenges.appspot.com/o/img%2Forigami.png?alt=media";
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
 
   Widget _buildPageContent(BuildContext context) {
     return GestureDetector(
@@ -88,6 +96,8 @@ class LoginPage extends StatelessWidget {
                       padding: EdgeInsets.symmetric(
                           horizontal: getViewportHeight(context) * 0.02),
                       child: TextField(
+                        keyboardType: TextInputType.emailAddress,
+                        controller: _emailController,
                         style: TextStyle(
                             color: Colors.black, fontFamily: "Mulish"),
                         decoration: InputDecoration(
@@ -113,6 +123,8 @@ class LoginPage extends StatelessWidget {
                       padding: EdgeInsets.symmetric(
                           horizontal: getViewportHeight(context) * 0.02),
                       child: TextField(
+                        obscureText: true,
+                        controller: _passwordController,
                         style: TextStyle(
                             color: Colors.black, fontFamily: "Mulish"),
                         decoration: InputDecoration(
@@ -154,7 +166,35 @@ class LoginPage extends StatelessWidget {
             child: Align(
               alignment: Alignment.bottomCenter,
               child: ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  print(_passwordController.text);
+                  userRepository
+                      .login(_emailController.text, _passwordController.text)
+                      .then((value) async {
+                    if (value.statusCode == 401 || value.statusCode == 404) {
+                      Fluttertoast.showToast(
+                          msg: "Error! Invalid Email or Password");
+                    }
+                    if (value.statusCode == 400) {
+                      Fluttertoast.showToast(msg: "Input Error: ${value.body}");
+                    }
+                    if (value.statusCode == 200) {
+                      SharedPreferences sharedPreferences =
+                          await SharedPreferences.getInstance();
+                      networkToken = json.decode(value.body).toString();
+                      await sharedPreferences.setString("token", networkToken);
+                      userRepository.getUserInfo('').then((value) async {
+                        if (value.statusCode == 200) {
+                          await sharedPreferences.setString(
+                              "user", value.body.toString());
+                          Navigator.popAndPushNamed(context, "/home");
+                        }
+                      });
+                    }
+                  }).catchError((err) {
+                    Fluttertoast.showToast(msg: err.toString());
+                  });
+                },
                 style: ButtonStyle(
                     shape: MaterialStateProperty.all(
                       RoundedRectangleBorder(
