@@ -11,7 +11,7 @@ const addElectionCommissionerUser = async () => {
                     name: "Election Commissioner",
                     email: "ec@evoting.com",
                     mobileNumber: "0",
-                    password: "eVoting@ec@123",
+                    password: "ec12345",
                     aadharNumber: "0"
                 });
                 bcrypt.genSalt(10, (err, salt) => {
