@@ -36,7 +36,7 @@ class _VotingRepository implements VotingNetwork {
   @override
   Future<Response> totaVotersCount() async {
     return await _client
-        .get(Uri.parse("$baseURL/voting/total-voters-count"), headers: {
+        .get(Uri.parse("$baseURL/voting/voters-count"), headers: {
       HttpHeaders.contentTypeHeader: 'application/json',
       HttpHeaders.authorizationHeader: networkToken
     });
