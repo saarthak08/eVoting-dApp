@@ -33,7 +33,7 @@ class _CandidatesPageState extends State<CandidatesPage> {
     });
   }
 
-  void fetchCandidates() async {
+  Future<void> fetchCandidates() async {
     await candidateRepository.getCandidates().then((value) {
       if (value.statusCode == 200) {
         var candidatesList = [];
@@ -58,7 +58,7 @@ class _CandidatesPageState extends State<CandidatesPage> {
     return RefreshIndicator(
         key: refreshIndicatorKey,
         onRefresh: () async {
-          return fetchCandidates();
+          await fetchCandidates();
         },
         child: Container(
             alignment: Alignment.center,
