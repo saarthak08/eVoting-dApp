@@ -26,6 +26,8 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   UserProvider? userProvider;
   VotingProvider? votingProvider;
+  String totalVotes = "";
+  String totalVoters = "";
   int selectedIndex = 0;
 
   @override
@@ -40,10 +42,24 @@ class _HomePageState extends State<HomePage> {
         User user = User.fromJSON(json.decode(userString));
         userProvider?.user = user;
       }
-      votingRepository.votingStatus().then((value) {
+      await votingRepository.votingStatus().then((value) {
         if (value.statusCode == 200) {
           votingProvider?.votingStatus =
               json.decode(value.body)['votingStatus'];
+        }
+      });
+      await votingRepository.totalVotes().then((value) {
+        if (value.statusCode == 200) {
+          setState(() {
+            totalVotes = json.decode(value.body)["totalVotes"];
+          });
+        }
+      });
+      await votingRepository.totaVotersCount().then((value) {
+        if (value.statusCode == 200) {
+          setState(() {
+            totalVoters = json.decode(value.body)["votersCount"];
+          });
         }
       });
     });
@@ -133,7 +149,11 @@ class _HomePageState extends State<HomePage> {
               tileColor: selectedIndex == 1
                   ? Colors.blue.withOpacity(0.2)
                   : Colors.white,
-              title: Text("Election Status"),
+              title: totalVotes == "0" && totalVoters == "0"
+                  ? Text("Election Status: Not Started")
+                  : votingProvider!.votingStatus
+                      ? Text("Election Status: In Progress")
+                      : Text("Election Status: Stopped"),
               onTap: () {
                 setState(() {
                   selectedIndex = 1;
