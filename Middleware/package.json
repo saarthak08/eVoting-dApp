@@ -13,7 +13,7 @@
   "dependencies": {
     "bcrypt": "^5.0.1",
     "dotenv": "^8.2.0",
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "ganache-cli": "^6.12.1",
     "jsonwebtoken": "^8.5.1",
     "mocha": "^10.1.0",
