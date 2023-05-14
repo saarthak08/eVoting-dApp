@@ -35,7 +35,7 @@ class _ElectionStatusPageState extends State<ElectionStatusPage> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance!.addPostFrameCallback((_) async {
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
       _refreshIndicatorKey.currentState?.show();
     });
   }

@@ -28,7 +28,7 @@ class _CandidatesPageState extends State<CandidatesPage> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance!.addPostFrameCallback((_) async {
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
       refreshIndicatorKey.currentState?.show();
     });
   }

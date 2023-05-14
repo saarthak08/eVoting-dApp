@@ -1,4 +1,4 @@
-const contractAddress = "0x5AFB5f1edF125a6E70bD125bF029fb39dE898F34";
+const contractAddress = "0xA1479aB7976BD7d7c82f7eff2deB1b8852f8A038";
 
 
 //Deployment Address

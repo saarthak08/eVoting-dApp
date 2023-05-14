@@ -12,6 +12,7 @@ import 'package:evoting/src/repository/impl/voting_repository.dart';
 import 'package:evoting/src/utils/app_utils.dart';
 import 'package:evoting/src/utils/dimensions.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -34,7 +35,7 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
 
-    WidgetsBinding.instance!.addPostFrameCallback((_) async {
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
       SharedPreferences sharedPreferences =
           await SharedPreferences.getInstance();
       String? userString = sharedPreferences.getString("user");
@@ -72,13 +73,13 @@ class _HomePageState extends State<HomePage> {
 
     return Scaffold(
       appBar: AppBar(
-        brightness: Brightness.dark,
         title: Text(selectedIndex == 0
             ? 'Candidates'
             : selectedIndex == 1
                 ? 'Election Status'
                 : ''),
         centerTitle: true,
+        systemOverlayStyle: SystemUiOverlayStyle.dark,
       ),
       body: getBody(),
       drawer: Drawer(
