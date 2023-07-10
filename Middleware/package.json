@@ -23,7 +23,7 @@
     "passport": "^0.6.0",
     "passport-jwt": "^4.0.0",
     "validator": "^13.7.0",
-    "web3": "^1.8.1"
+    "web3": "^4.0.2"
   },
   "devDependencies": {
     "nodemon": "^2.0.20"
